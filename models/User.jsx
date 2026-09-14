@@ -1,6 +1,8 @@
 const mongoose = require("mongoose")
 const {Schema} = mongoose
 
+
+// model do usuario 
 const userSchema = new Schema(
     {
         name: String,
