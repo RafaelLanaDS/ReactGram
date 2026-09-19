@@ -21,7 +21,21 @@ const userCreateValidation = () => {
             })
     ]
 
-    module.exports = {
-        userCreateValidation,
+    const loginValidation = () => {
+        return [
+            body("email")
+                .isString()
+                .isEmail()
+                .withMessage("Insira um email válido"),
+            body("password")
+                .isString()
+                .isLength({min: 6})
+                .withMessage("A senha precisa ter no mínimo 6 caracteres"),
+        ]
     }
 }
+
+module.exports = {
+        userCreateValidation,
+        loginValidation,
+    }
