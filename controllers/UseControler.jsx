@@ -49,10 +49,45 @@ const register = async (req, res) => {
 }
 //Login user and sign in
 const login = async (req, res) => {
-    res.send("Login route")
+    const { email, password } = req.body
+
+    // check if user exists
+    const user = await User.findOne({ email })
+
+    if(!user){
+        res.status(422).json({errors: ["Usuário não encontrado!"]})
+        return
+    }
+
+    // check if password matches
+    const passwordMatch = await bcrypt.compare(password, user.password)
+
+    if(!passwordMatch){
+        res.status(422).json({errors: ["Senha incorreta!"]})
+        return
+    }
+
+    // generate token
+    const token = generateToken(user._id)
+
+    res.status(200).json({
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        token,
+    })
+}
+
+// get cyrrent logged in user
+const getCurrentUser = (req, res) => {
+    const user = req.user
+
+    res.status(200).json(user)
+
 }
 
 module.exports = {
     register,
     login,
+    getCurrentUser,
 }
