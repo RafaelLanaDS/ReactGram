@@ -6,9 +6,9 @@ const { register } = require("../controllers/UserController");
 
 // MIDDLEWARES
 const validation = require("../middlewares/handleValidation");
-const { registerValidation } = require("../middlewares/userValidation");
+const { userCreateValidation } = require("../middlewares/userValidation");
 
 // ROUTES
-router.post("/register", registerValidation, validation, register);
+router.post("/register", userCreateValidation(), validation, register);
 
 module.exports = router;
