@@ -14,6 +14,7 @@ router.post("/register", userCreateValidation(), validation, register);
 router.post("/login", loginValidation(), validation, login);
 router.get("/profile", authGuard, getCurrentUser);
 router.put("/", authGuard, userUpdateValidation(), validation, imageUpload.single("profileImage"), updateUser);
+router.get("/:id", authGuard, getUserById);
 
 module.exports = router;
 

@@ -130,11 +130,30 @@ const updateUser = async (req, res) => {
     // a função updateUser é responsável por atualizar as informações do usuário, como nome, senha, imagem de perfil e biografia. Ela verifica se o usuário está autenticado, busca o usuário no banco de dados e atualiza os campos fornecidos. Se uma nova senha for fornecida, ela é criptografada antes de ser salva. Após a atualização, o usuário atualizado é retornado na resposta.
 }
 
+//get user by id 
+const getUserById = async(req, res) => {
+    const {id} = req.params
+
+    try {
+        const user = await User.findById(moongoose.Types.ObjectId(id)).select("-password")
+        // check if user exists
+        if(!user){
+            res.status(404).json({errors: ["Usuário não encontrado!"]})
+            return
+        }
+        res.status(200).json(user)
+    } catch (error) {
+        res.status(404).json({errors: ["Usuário não encontrado!"]})
+        return
+    }
+}
+
 module.exports = {
     register,
     login,
     getCurrentUser,
-    updateUser
+    updateUser,
+    getUserById
 }
 
 // o UserController é responsável por gerenciar as operações relacionadas aos usuários, como registro, login, obtenção do usuário atual e atualização do usuário. Ele utiliza o modelo User para interagir com o banco de dados e o bcrypt para hash de senhas. Além disso, ele gera tokens JWT para autenticação dos usuários.
