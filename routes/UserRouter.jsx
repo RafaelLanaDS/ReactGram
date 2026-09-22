@@ -16,3 +16,5 @@ router.get("/profile", authGuard, getCurrentUser);
 router.put("/", authGuard, userUpdateValidation(), validation, imageUpload.single("profileImage"), updateUser);
 
 module.exports = router;
+
+// o UserRouter é responsável por definir as rotas relacionadas aos usuários, como registro, login, obtenção do perfil do usuário e atualização do usuário. Ele utiliza os controladores correspondentes para lidar com as requisições e aplica os middlewares de validação e autenticação conforme necessário.
