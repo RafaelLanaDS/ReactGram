@@ -28,6 +28,35 @@ const insertPhoto = async (req, res) => {
     res.send("Photo inserted successfully");
 };
 
+// remove photo by id
+const removePhoto = async (req, res) => {
+
+    const { id } = req.params;
+
+    const requser = req.user._id;
+
+    const photo = Photo.findById(mongoose.Types.ObjectId(id));
+
+    
+    if (!photo) {
+        return res.status(404).json({
+            errors: ["Foto não encontrada."]
+        });
+    }
+
+    // ckeck if photo belongs to user
+    if (!photo.userId.equals(requser)) {
+        return res.status(403).json({
+            errors: ["Acesso negado."]
+        });
+    }
+
+    await Photo.findByIdAndDelete(id);
+
+    res.send("Photo removed successfully");
+};
+
 module.exports = {
-    insertPhoto
+    insertPhoto,
+    removePhoto
 };
