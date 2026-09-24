@@ -56,7 +56,15 @@ const removePhoto = async (req, res) => {
     res.send("Photo removed successfully");
 };
 
+// get all photos from a user 
+const getAllPhotos = async (req, res) => {
+    const photos = await Photo.find({}.sort ({ createdAt: -1 }).exec());
+    return res.status(200).json(photos);
+};
+
 module.exports = {
     insertPhoto,
-    removePhoto
+    removePhoto,
+    getAllPhotos
+
 };
