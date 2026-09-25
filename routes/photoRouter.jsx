@@ -13,5 +13,6 @@ const validation = require("../middlewares/handleValidation")
 router.post("/", authGuard, photoInsertValidation, validation, insertPhoto);
 router.delete("/:id", authGuard, removePhoto);
 router.get("/", authGuard, getAllPhotos);
+router.get("/user/:id", authGuard, getUserPhotos);
 
 module.exports = router;
