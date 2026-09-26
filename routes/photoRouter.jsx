@@ -15,5 +15,6 @@ router.delete("/:id", authGuard, removePhoto);
 router.get("/", authGuard, getAllPhotos);
 router.get("/user/:id", authGuard, getUserPhotos);
 router.get("/:id", authGuard, getPhotoById);
+router.put("/:id", authGuard,photoUpadateValidation, updatePhoto)
 
 module.exports = router;
