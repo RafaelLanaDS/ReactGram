@@ -159,6 +159,43 @@ const likePhoto = async(req, res) => {
 
 }
 
+// comment functionality
+const commentPhoto = async(req, res) => {
+
+    const {id} = req.params
+
+    const {comment} = req.body
+
+    const reqUser = req.user 
+
+    const user = await User.findById(reqUser._id)
+
+    const photo = await photo.findById(id)
+
+    // check if user already liked the photo 
+    if(photo.likes.includes(reqUser._id)){
+        res.status(422).json({ errors: ["Voce ja curtiu essa foto"]})
+        return
+    }
+
+    // Put comment in the array comments 
+    const userComment = {
+        comment,
+        userName: user.name,
+        userImage: user.profileImage, 
+        userId: user._id
+    }
+
+    photo.comments.push(userComment)
+
+    await photo.save()
+
+    res.status(200).json({
+        comment: userComment,
+        message: "O comentario foi adicionado com sucesso"
+    })
+}
+
 
 module.exports = {
     insertPhoto,
@@ -167,5 +204,6 @@ module.exports = {
     getUserPhotos,
     getPhotoById,
     updatePhoto,
-    likePhoto
+    likePhoto,
+    commentPhoto
 };
