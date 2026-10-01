@@ -13,9 +13,9 @@ const Register = () => {
   }
 
   return (
-    <div>
+    <div id={styles.register}>
       <h1>Register</h1>
-      <p className="subtitle">Cadstre-se para ver fotos e vídeos do seu amigo.</p>
+      <p className={styles.subtitle}>Cadstre-se para ver fotos e vídeos do seu amigo.</p>
       <form onSubmit={handleSubmit}>
         <input type="text" placeholder="Nome" />
         <input type="email" placeholder="E-mail" />
