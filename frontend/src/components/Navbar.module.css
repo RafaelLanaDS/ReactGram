@@ -16,12 +16,10 @@
     position: absolute;
     top: 10px;
     left: 9px;
-    transform: translateY(-50%);
-    color: #363636;
 }
 
-#searchform imput{
-    padding-left: 2rem;
+#searchform input{
+    padding-left: 2.5rem;
     border: none;
     border-radius: 5px;
     width: 100%;
