@@ -1,0 +1,46 @@
+#nav{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: black;
+    border-bottom: 1px solid #363636;
+    padding: .1rem 1rem;
+}
+
+#searchform{
+    position: relative;
+    width: 20%;
+}
+
+#searchform svg{
+    position: absolute;
+    top: 10px;
+    left: 9px;
+    transform: translateY(-50%);
+    color: #363636;
+}
+
+#searchform imput{
+    padding-left: 2rem;
+    border: none;
+    border-radius: 5px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+#navlinks{
+    display: flex;
+    align-items: center;
+}
+
+#navlinks li {
+    margin-right: 1em;
+}
+
+#navlinks span{
+    cursor: pointer;
+}
+
+#navlinks svg {
+    font-size: 1.5rem;
+}
