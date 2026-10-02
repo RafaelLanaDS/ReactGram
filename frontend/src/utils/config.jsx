@@ -1,0 +1,31 @@
+export const api = "https://localhost:5173/api"
+export const uploads = "https://localhost:5173/uploads"
+
+export const requestConfig = (method, data, token = null, image = null) => {
+    let config  
+
+    if(image) {
+        config = {
+            method,
+            body: data, 
+            headers: {}
+        }
+    } else if(method === "DELETE" || data === null) {
+        config = {
+            method,
+            headers: {}
+        }
+    } else {
+        config = {
+            method,
+            body: JSON.stringify(data),
+            headers: {
+                "content-type": "application/json"
+            }
+        }
+    }
+    if(token){
+        config.headers.Authorizationm = `Bearer ${token}`
+    }
+    return config
+}
