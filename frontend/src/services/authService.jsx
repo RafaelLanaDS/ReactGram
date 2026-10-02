@@ -8,8 +8,17 @@ const Register = async(data) => {
     const res = await fetch(api + "/users/register", config)
     const responseData = await res.json()
 
-    if(responseData) {
-        localStorage.setItem("user", JSON.stringify(responseData))
+    try {
+        const res = await fetch(api + "/users/register", config)
+            .then((res) => res.json())
+            .catch((err) => err)
+        if (res) {
+            localStorage.setItem("user", JSON.stringify(res))
+        }
+        return res
+        
+    } catch (error) {
+        console.error(error)
     }
 
     return responseData

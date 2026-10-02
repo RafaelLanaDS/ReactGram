@@ -2,6 +2,7 @@ import styles from "./Auth.module.css"
 
 //components
 import { Link } from "react-router-dom"
+import Message from "../../components/Message"
 
 //hooks
 import { useState, useEffect } from "react"
@@ -47,11 +48,29 @@ const Register = () => {
       <h1>Register</h1>
       <p className={styles.subtitle}>Cadstre-se para ver fotos e vídeos do seu amigo.</p>
       <form onSubmit={handleSubmit}>
-        <input type="text" placeholder="Nome" onChange={(e) => setName(e.target.value)} value={name || ""}/>
-        <input type="email" placeholder="E-mail" onChange={(e) => setEmail(e.target.value)} value={email || ""}/>
-        <input type="password" placeholder="Senha" onChange={(e) => setPassword(e.target.value)} value={password || ""}/>
-        <input type="password" placeholder="Confirmação de senha" onChange={(e) => setConfirmPassword(e.target.value)} value={confirmPassword || ""}/>
-        <input type="submit" value="Cadastrar" />
+        <input 
+          type="text" 
+          placeholder="Nome" 
+          onChange={(e) => setName(e.target.value)} 
+          value={name || ""}/>
+        <input 
+          type="email" 
+          placeholder="E-mail" 
+          onChange={(e) => setEmail(e.target.value)} 
+          value={email || ""}/>
+        <input 
+          type="password" 
+          placeholder="Senha" 
+          onChange={(e) => setPassword(e.target.value)} 
+          value={password || ""}/>
+        <input 
+          type="password" 
+          placeholder="Confirmação de senha" 
+          onChange={(e) => setConfirmPassword(e.target.value)} 
+          value={confirmPassword || ""}/>
+        {!loading && <input type="submit" value="Cadastrar"/>}
+        {loading && <input type="submit" value="Aguarde..." disabled/>}
+        {error && <Message msg={error} type="error"/>}
       </form>
       <p>Já tem conta? <Link to="/login">Clique aqui</Link></p>
     </div>
