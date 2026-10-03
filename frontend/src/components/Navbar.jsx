@@ -43,7 +43,7 @@ const Navbar = () =>  {
                             </NavLink>
                         </li>
                         <li>
-                            <span>Sair</span>
+                            <span onClick={logout}>Sair</span>
                         </li>
                     </>
                 ) : (
