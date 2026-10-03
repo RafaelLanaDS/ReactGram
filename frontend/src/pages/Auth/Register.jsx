@@ -66,7 +66,7 @@ const Register = () => {
         <input 
           type="password" 
           placeholder="Confirmação de senha" 
-          onChange={(e) => setConfirmPassword(e.target.value)} 
+          onChange={(e) => setConfirmPassword(e.target.value)}  
           value={confirmPassword || ""}/>
         {!loading && <input type="submit" value="Cadastrar"/>}
         {loading && <input type="submit" value="Aguarde..." disabled/>}
