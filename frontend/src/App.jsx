@@ -14,6 +14,7 @@ import Footer from "./components/Footer"
 import Home from "./pages/Home/Home"
 import Register from "./pages/Auth/Register"
 import Login from "./pages/Auth/Login"
+import EditProfile from "./pages/EditProfile/EditProfile"
 
 function App() {
   const { auth, loading} = useAuth()
@@ -30,6 +31,9 @@ function App() {
                   <Route 
                     path="/" 
                     element={auth ? <Home /> : <Navigate to="/login" />} />
+                  <Route 
+                    path="/edit" 
+                    element={auth ? <EditProfile /> : <Navigate to="/login" />} />
                   <Route 
                     path="/login" 
                     element={auth ? <Navigate to="/" /> : <Login />} />
