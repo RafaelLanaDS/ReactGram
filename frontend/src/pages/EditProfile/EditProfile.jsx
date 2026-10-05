@@ -1,4 +1,4 @@
-import "./EditProfile.css";
+import styles from "./EditProfile.module.css";
 
 import { uploads } from "../../utils/config";
 
@@ -61,11 +61,9 @@ const Profile = () => {
     // build form data
     const formData = new FormData();
 
-    const userFormData = Object.keys(userData).forEach((key) =>
-      formData.append(key, userData[key])
-    );
-
-    formData.append("user", userFormData);
+    Object.entries(userData).forEach(([key, value]) => {
+      formData.append(key, value);
+    });
 
     await dispatch(updateProfile(formData));
 
@@ -85,14 +83,14 @@ const Profile = () => {
   };
 
   return (
-    <div id="edit-profile">
+    <div className={styles.editProfile}>
       <h2>Edite seus dados</h2>
-      <p className="subtitle">
+      <p className={styles.subtitle}>
         Adicione uma imagem de perfil, e conte mais um pouco sobre você...
       </p>
-      {(user.profileImage || previewImage) && (
+      {(user?.profileImage || previewImage) && (
         <img
-          className="profile-image"
+          className={styles.profileImage}
           src={
             previewImage
               ? URL.createObjectURL(previewImage)
@@ -101,7 +99,7 @@ const Profile = () => {
           alt={user.name}
         />
       )}
-      <form onSubmit={handleSubmit}>
+      <form className={styles.form} onSubmit={handleSubmit}>
         <input
           type="text"
           placeholder="Nome"
