@@ -1,74 +1,106 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import userService from "../services/userService";
 
 const initialState = {
-  user: null,
-  message: false,
+  user: {},
   error: false,
+  success: false,
   loading: false,
+  message: null,
 };
 
-const rejectRequest = (error, thunkAPI) =>
-  thunkAPI.rejectWithValue(error instanceof Error ? error.message : String(error));
-
+// Get user details, for edit data
 export const profile = createAsyncThunk(
   "user/profile",
-  async (_, thunkAPI) => {
-    try {
-      return await userService.profile();
-    } catch (error) {
-      return rejectRequest(error, thunkAPI);
-    }
+  async (user, thunkAPI) => {
+    const token = thunkAPI.getState().auth.user.token;
+
+    const data = await userService.profile(user, token);
+
+    console.log(data);
+
+    return data;
   }
 );
 
+// Update user details
 export const updateProfile = createAsyncThunk(
-  "user/updateProfile",
-  async (formData, thunkAPI) => {
-    try {
-      return await userService.updateProfile(formData);
-    } catch (error) {
-      return rejectRequest(error, thunkAPI);
+  "user/update",
+  async (user, thunkAPI) => {
+    const token = thunkAPI.getState().auth.user.token;
+
+    const data = await userService.updateProfile(user, token);
+
+    // Check for errors
+    if (data.errors) {
+      return thunkAPI.rejectWithValue(data.errors[0]);
     }
+
+    console.log(data);
+
+    return data;
   }
 );
 
-const userSlice = createSlice({
+// Get user details
+export const getUserDetails = createAsyncThunk(
+  "user/get",
+  async (id, thunkAPI) => {
+    const token = thunkAPI.getState().auth.user.token;
+
+    const data = await userService.getUserDetails(id, token);
+
+    console.log(data);
+
+    return data;
+  }
+);
+
+export const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
     resetMessage: (state) => {
-      state.message = false;
-      state.error = false;
+      state.message = null;
     },
   },
   extraReducers: (builder) => {
     builder
       .addCase(profile.pending, (state) => {
         state.loading = true;
-        state.error = false;
+        state.error = null;
       })
       .addCase(profile.fulfilled, (state, action) => {
         state.loading = false;
+        state.success = true;
+        state.error = null;
         state.user = action.payload;
-      })
-      .addCase(profile.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
       })
       .addCase(updateProfile.pending, (state) => {
         state.loading = true;
-        state.error = false;
-        state.message = false;
+        state.error = null;
       })
       .addCase(updateProfile.fulfilled, (state, action) => {
         state.loading = false;
+        state.success = true;
+        state.error = null;
         state.user = action.payload;
-        state.message = "Perfil atualizado com sucesso.";
+        state.message = "Usuário atualizado com sucesso!";
       })
       .addCase(updateProfile.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+        state.user = null;
+      })
+      .addCase(getUserDetails.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getUserDetails.fulfilled, (state, action) => {
+        state.loading = false;
+        state.success = true;
+        state.error = null;
+        state.user = action.payload;
       });
   },
 });

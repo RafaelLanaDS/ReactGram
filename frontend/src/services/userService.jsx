@@ -1,46 +1,54 @@
-import { api } from "../utils/config";
+import { api, requestConfig } from "../utils/config";
 
-const getToken = () => {
-  const user = JSON.parse(localStorage.getItem("user"));
+// Get user details
+const profile = async (data, token) => {
+  const config = requestConfig("GET", data, token);
 
-  if (!user?.token) {
-    throw new Error("Você precisa estar autenticado para acessar seu perfil.");
+  try {
+    const res = await fetch(api + "/users/profile", config)
+      .then((res) => res.json())
+      .catch((err) => err);
+
+    return res;
+  } catch (error) {
+    console.log(error);
   }
-
-  return user.token;
 };
 
-const parseResponse = async (response) => {
-  const data = await response.json();
+// Update user details
+const updateProfile = async (data, token) => {
+  const config = requestConfig("PUT", data, token, true);
 
-  if (!response.ok || data.errors) {
-    const error = Array.isArray(data.errors) ? data.errors[0] : data.message;
-    throw new Error(error || `A solicitação falhou (${response.status}).`);
+  try {
+    const res = await fetch(api + "/users/", config)
+      .then((res) => res.json())
+      .catch((err) => err);
+
+    return res;
+  } catch (error) {
+    console.log(error);
   }
-
-  return data;
 };
 
-const profile = async () => {
-  const response = await fetch(`${api}/users/profile`, {
-    headers: {
-      Authorization: `Bearer ${getToken()}`,
-    },
-  });
+// Get user details
+const getUserDetails = async (id) => {
+  const config = requestConfig("GET");
 
-  return parseResponse(response);
+  try {
+    const res = await fetch(api + "/users/" + id, config)
+      .then((res) => res.json())
+      .catch((err) => err);
+
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
 };
 
-const updateProfile = async (formData) => {
-  const response = await fetch(`${api}/users`, {
-    method: "PUT",
-    headers: {
-      Authorization: `Bearer ${getToken()}`,
-    },
-    body: formData,
-  });
-
-  return parseResponse(response);
+const userService = {
+  profile,
+  updateProfile,
+  getUserDetails,
 };
 
-export default { profile, updateProfile };
+export default userService;
