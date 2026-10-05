@@ -2,7 +2,7 @@ import styles from "./Auth.module.css"
 
 // components
 import { Link } from "react-router-dom"
-import message from "../../utils/message"
+import Message from "../../components/Message"
 
 // hooks
 import { useState, useEffect } from "react"
@@ -34,10 +34,10 @@ const Login = () => {
   }, [dispatch])
 
   return (
-    <div id="login">
+    <div id={styles.login}>
       <h2>ReactGram</h2>
-      <p className="subtitle">Faça login para continuar</p>
-      <form onsubmit={handleSubmit}>
+      <p className={styles.subtitle}>Faça login para continuar</p>
+      <form onSubmit={handleSubmit}>
         <input 
           type="text" 
           placeholder="Email"  
@@ -48,7 +48,7 @@ const Login = () => {
           placeholder="Senha"  
           onChange={(e) => setPassword(e.target.value)}  
           value = {password || ""}/>
-        {!loading && <input type="submit" value="Cadastrar"/>}
+        {!loading && <input type="submit" value="Entrar"/>}
         {loading && <input type="submit" value="Aguarde..." disabled/>}
         {error && <Message msg={error} type="error"/>}
       </form>

@@ -4,7 +4,7 @@ import "./App.css"
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
 
 //hooks
-import { useAuth } from "../hooks/useAuth"
+import { useAuth } from "./hooks/useAuth"
 
 //components
 import Navbar from "./components/Navbar"
@@ -17,36 +17,31 @@ import Login from "./pages/Auth/Login"
 
 function App() {
   const { auth, loading} = useAuth()
-  if (loading) {
-    return <h1>Loading...</h1>
-  }
-  if (!auth) {
-    return <Navigate to="/login" />
-  }
 
   return (
-      <div className='app'>
-        <BrowserRouter>
+      <BrowserRouter>
+        <div className='app'>
           <Navbar />
             <div className="container">
-              <Routes>
-                <Route 
-                  path="/" 
-                  element={auth ? <Home /> : <Navigate 
-                  to="/login" />} />
-                <Route 
-                  path="/login" 
-                  element={auth ? <Login /> : <Navigate 
-                  to="/" />} />
-                <Route 
-                  path="/register" 
-                  element={auth ? <Register /> : <Navigate 
-                  to="/login" />} />
-              </Routes>
+              {loading ? (
+                <h1>Loading...</h1>
+              ) : (
+                <Routes>
+                  <Route 
+                    path="/" 
+                    element={auth ? <Home /> : <Navigate to="/login" />} />
+                  <Route 
+                    path="/login" 
+                    element={auth ? <Navigate to="/" /> : <Login />} />
+                  <Route 
+                    path="/register" 
+                    element={auth ? <Navigate to="/" /> : <Register />} />
+                </Routes>
+              )}
             </div>
           <Footer />
-        </BrowserRouter>
-      </div>
+        </div>
+      </BrowserRouter>
   )
 
 }
