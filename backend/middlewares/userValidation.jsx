@@ -20,19 +20,19 @@ const userCreateValidation = () => {
                 return true;
             })
     ]
+}
 
-    const loginValidation = () => {
-        return [
-            body("email")
-                .isString()
-                .isEmail()
-                .withMessage("Insira um email válido"),
-            body("password")
-                .isString()
-                .isLength({min: 6})
-                .withMessage("A senha precisa ter no mínimo 6 caracteres"),
-        ]
-    }
+const loginValidation = () => {
+    return [
+        body("email")
+            .isString()
+            .isEmail()
+            .withMessage("Insira um email válido"),
+        body("password")
+            .isString()
+            .isLength({min: 6})
+            .withMessage("A senha precisa ter no mínimo 6 caracteres"),
+    ]
 }
 
 const userUpdateValidation = () => {
