@@ -1,24 +1,25 @@
-const mongoose = require("mongoose")
+const mongoose = require("mongoose");
 
-const dbUser = process.env.BD_USER
-const dbPassword = process.env.DB_PASS
+const dbUser = process.env.DB_USER || process.env.BD_USER;
+const dbPassword = process.env.DB_PASS;
+const dbHost = process.env.DB_HOST || "cluster0.8taofxr.mongodb.net";
+
+const connectionString =
+  process.env.MONGODB_URI ||
+  (dbUser && dbPassword
+    ? `mongodb+srv://${encodeURIComponent(dbUser)}:${encodeURIComponent(dbPassword)}@${dbHost}/?retryWrites=true&w=majority`
+    : null);
 
 const conn = async () => {
-    try {
-        const dbConn = await mongoose.connect(
-            `mongodb+srv://${dbUser}:${dbPassword}@cluster0.8taofxr.mongodb.net/?retryWrites=true&w=majority`
-        )
+  if (!connectionString) {
+    throw new Error(
+      "Set MONGODB_URI or configure DB_USER/BD_USER and DB_PASS in backend/.env."
+    );
+  }
 
-        console.log("Conectou no Banco")
+  const dbConn = await mongoose.connect(connectionString);
+  console.log("Conectou ao banco de dados!");
+  return dbConn;
+};
 
-        return dbConn
-    } catch (error) {
-        console.log(error)
-    }
-}
-
-conn()
-
-module.exports = conn
-
-//connection ykpBQRB1dMhL11O3 wRm3EqEM323iNqg3
+module.exports = conn;
