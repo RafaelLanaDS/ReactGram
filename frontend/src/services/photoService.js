@@ -108,16 +108,13 @@ const comment = async (data, id, token) => {
 // Get all photos
 const getPhotos = async () => {
   const config = requestConfig("GET");
+  const res = await fetch(api + "/photos", config);
 
-  try {
-    const res = await fetch(api + "/photos", config)
-      .then((res) => res.json())
-      .catch((err) => err);
-
-    return res;
-  } catch (error) {
-    console.log(error);
+  if (!res.ok) {
+    throw new Error(`Não foi possível carregar as fotos (HTTP ${res.status}).`);
   }
+
+  return res.json();
 };
 
 // Search photos by title

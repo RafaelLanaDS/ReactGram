@@ -19,7 +19,7 @@ const Home = () => {
   const resetMessage = useResetComponentMessage(dispatch);
 
   const { user } = useSelector((state) => state.auth);
-  const { photos, loading } = useSelector((state) => state.photo);
+  const { photos, loading, error } = useSelector((state) => state.photo);
 
   // Load all photos
   useEffect(() => {
@@ -36,9 +36,18 @@ const Home = () => {
     return <p>Carregando...</p>;
   }
 
+  if (error) {
+    return (
+      <p role="alert">
+        Não foi possível carregar as fotos. Verifique se a API e o MongoDB estão
+        funcionando. ({error})
+      </p>
+    );
+  }
+
   return (
     <div id="home">
-      {photos &&
+      {Array.isArray(photos) &&
         photos.map((photo) => (
           <div key={photo._id}>
             <PhotoItem photo={photo} />
@@ -48,7 +57,7 @@ const Home = () => {
             </Link>
           </div>
         ))}
-      {photos && photos.length === 0 && (
+      {Array.isArray(photos) && photos.length === 0 && (
         <h2 className="no-photos">
           Ainda não há fotos publicadas,{" "}
           <Link to={`/users/${user.userId}`}>clique aqui</Link> para começar.

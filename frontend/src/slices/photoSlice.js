@@ -128,6 +128,10 @@ export const comment = createAsyncThunk(
 export const getPhotos = createAsyncThunk("photo/getall", async () => {
   const data = await photoService.getPhotos();
 
+  if (!Array.isArray(data)) {
+    throw new Error("A API retornou uma resposta inválida ao carregar as fotos.");
+  }
+
   return data;
 });
 
@@ -282,6 +286,10 @@ export const photoSlice = createSlice({
         state.success = true;
         state.error = null;
         state.photos = action.payload;
+      })
+      .addCase(getPhotos.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message || "Não foi possível carregar as fotos.";
       })
       .addCase(searchPhotos.pending, (state) => {
         state.loading = true;
